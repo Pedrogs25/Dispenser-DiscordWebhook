@@ -6,7 +6,7 @@ namespace BaseHttp.GETPAGINA
     public class Rbx
     {
 
-        public void PegarAtivos(string jogos)
+        public string PegarAtivos(string jogos)
         {
             var site = WebRequest.CreateHttp(jogos);
             site.Method = "GET";
@@ -33,7 +33,8 @@ namespace BaseHttp.GETPAGINA
                 }
 
                 string database = entre(objResponse.ToString(), "<p class=\"text-label text-overflow font-caption-header\">Active</p>\r\n                                        <p class=\"text-lead font-caption-body wait-for-i18n-format-render \">", "</p>");
-                Console.WriteLine(database);
+
+                return "Players ativos: " + database;
             }
         }
     }
