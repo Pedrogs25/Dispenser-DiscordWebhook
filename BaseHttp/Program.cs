@@ -1,15 +1,7 @@
-﻿using System.Net;
-using System.Threading;
-using Discord;
+﻿using Discord;
 using Discord.Webhook;
-using Discord.WebSocket;
-using Discord.Commands;
 using BaseHttp.GETPAGINA;
 using Microsoft.VisualBasic;
-using System.ComponentModel;
-using System.Security.Cryptography.X509Certificates;
-using System.Reactive;
-using static System.Net.WebRequestMethods;
 
 class Program
 {
@@ -18,11 +10,15 @@ class Program
 
     public async Task MainAsync()
     {
+        var random = new Random();
+        var list = new List<string> { "\"Whoooowee! Makin' bacon!\"", "\"This thing ain't on auto-pilot, son!\"", "\"Ain't that a cute little gun?\"", "\"Start prayin', boy!\"", "\"Yippekeeyah-heeyapeeah-kayoh!\"", "\"Erecting a Dispenser!\"" };
+        int index = random.Next(list.Count);
 
+        Console.ForegroundColor = ConsoleColor.DarkBlue; Console.WriteLine("Made by Engineer. " + list[index]); Console.ResetColor();
         Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("[INICIANDO]..."); Console.ResetColor();
 
         //ID DO WEBHOOK, LEMBRA DO ""
-        using (var client = new DiscordWebhookClient("https://discord.com/api/webhooks/1155556405504380939/KEy8isC4kYcd_-xpAswFXve2cKfv21_X1mDf1NQgU8PxDvdrVZf1UBk15yQlDlmKlcti"))
+        using (var client = new DiscordWebhookClient("https://discord.com/api/webhooks/1200544873535770744/jhcuR0KABb5HOv7tePPXFCzFEJHubpm4vusJmj5A4psYWcfcyNybYoP-Q0i_hqkkdKXQ"))
         {
             //await client.SendMessageAsync("e"); //PRA QUANDO PERDER A MSG, TIRE AS BARRINHAS DO COMEÇO PARA ENVIAR OUTRA E PEGAR O ID DELA
 
@@ -57,6 +53,7 @@ class Program
                 ThumbnailUrl = "https://cdn.discordapp.com/attachments/1003119670435512410/1155981668688072724/Logotipos.png", //Link da imagem
                 Color = Color.Red,
                 Timestamp = DateTime.Now,
+                ImageUrl = "",
                 Description =
                 "### • Exército Brasileiro Flithy \n" + rbx.PegarAtivos(Jogo1) +
                 "\n### • Exército Brasileiro Tevez \n" + rbx.PegarAtivos(Jogo2) +
@@ -75,7 +72,7 @@ class Program
 
 
 
-            Console.Write("Debug? Y/N - ");
+            Console.Write("[- Debug? Y/N] - ");
             char escolha = char.Parse(Console.ReadLine());
             Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine("[INICIADO!]"); Console.ResetColor();
             for (int i = 1; i > 0; i++)
@@ -96,17 +93,17 @@ class Program
                 "\n### • Exército Brasileiro Fonojonzo - V1 \n" + rbx.PegarAtivos(Jogo10) +
                 "\n### • Exército Brasileiro Fonojonzo - V1 segundo \n" + rbx.PegarAtivos(Jogo11);
                 embed.Timestamp = DateTime.Now;
-
+                embed.ImageUrl = rbx.GifAleatorio();
 
                 //NOS NÚMEROS ABAIXO COLOQUE O ID DE UMA MENSAGEM FEITA PELO WEBHOOK -- AVISO -- SE APAGAR A MSG CAPAZ DE DAR PAU
 
-                await client.ModifyMessageAsync(1155991750519820408, properties =>
+                await client.ModifyMessageAsync(1200545424277246093, properties =>
                 {
                     properties.Content = "";
                     properties.Embeds = new[] { embed.Build() }; // Edita o embed da mensagem
                 });
 
-                Thread.Sleep(5000);
+                Thread.Sleep(180000);
                 if (escolha == 'Y' || escolha == 'y')
                 {
                     Console.WriteLine("Atualizado - " + DateAndTime.TimeString);
