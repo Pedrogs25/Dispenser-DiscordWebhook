@@ -2,7 +2,6 @@
 using Discord.Webhook;
 using BaseHttp.GETPAGINA;
 using Microsoft.VisualBasic;
-using System.Text;
 
 class Program
 {
@@ -18,51 +17,107 @@ class Program
         Console.ForegroundColor = ConsoleColor.DarkBlue; Console.WriteLine("Made by Engineer. " + list[index]); Console.ResetColor();
         Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("[INICIANDO]..."); Console.ResetColor();
 
-        //ID DO WEBHOOK, LEMBRA DO ""
-        using (var client = new DiscordWebhookClient("https://discord.com/api/webhooks/1200544873535770744/jhcuR0KABb5HOv7tePPXFCzFEJHubpm4vusJmj5A4psYWcfcyNybYoP-Q0i_hqkkdKXQ"))
+        Rbx rbx = new Rbx(); //Chama a classe
+
+
+        string webhook = "";
+        string idmsg = "";
+
+        try
         {
-            //await client.SendMessageAsync("e"); //PRA QUANDO PERDER A MSG, TIRE AS BARRINHAS DO COMEÇO PARA ENVIAR OUTRA E PEGAR O ID DELA
+            File.Exists("Inicializar.txt");
+            var configs = File.ReadAllLines("Inicializar.txt");
+            for (var i = 0; i < configs.Length; i += 1)
+            {
+                if (configs[i].StartsWith("Webhook="))
+                {
+                    webhook = configs[i].Remove(0, 8);
+                    Console.WriteLine(webhook);
+                }
+
+                if (configs[i].StartsWith("IDMensagem="))
+                {
+                    idmsg = configs[i].Remove(0, 11);
+                    Console.WriteLine(idmsg);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine();
+            Console.WriteLine("ATENÇÃO! HÁ UM ERRO NO ARQUIVO DE INICIALIZAÇÃO // " + ex.Message);
+            throw;
+        }
+
+
+        try
+        {
+            using (var client = new DiscordWebhookClient(webhook))
+            {
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine();
+            Console.WriteLine("ATENÇÃO! HÁ UM ERRO NO WEBHOOK // " + ex.Message);
+            throw;
+        }
+
+        using (var client = new DiscordWebhookClient(webhook))
+        {
+
+            try
+            {
+                await client.ModifyMessageAsync(ulong.Parse(idmsg), properties =>
+                {
+                    properties.Content = "Reiniciando...";
+                });
+            }
+            catch (Exception ex)
+            {
+                await client.SendMessageAsync(".");
+                Console.WriteLine("Pegue o ID da mensagem e coloque no arquivo .txt, o webhook acaba de enviar uma mensagem no canal que ele foi criado. // " + ex.Message);
+                Console.WriteLine();
+
+                throw;
+            }
 
 
             Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("[PEGANDO LINKS]..."); Console.ResetColor();
-            //ADICIONE OS JOGOS COM O LINK
 
-            Rbx rbx = new Rbx(); //Chama a classe
-
-
-            var lines = File.ReadAllLines("links.txt");
             string links = "";
-            for (var i = 0; i < lines.Length; i += 1)
+
+            if (File.Exists("links.txt"))
             {
-                var line = lines[i];
+                var lines = File.ReadAllLines("links.txt");
+                for (var i = 0; i < lines.Length; i += 1)
+                {
+                    if (!lines[i].StartsWith("https"))
+                    {
+                        links += rbx.PegarAtivos(lines[i + 1], lines[i]);
+                    }
+                }
             }
-
-            foreach (var line in lines)
+            else
             {
-                links += rbx.PegarAtivos(line);
+                throw new Exception("O arquivo de links não existe, chame o engineer.");
             }
-
-
 
             Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine(" OK"); Console.ResetColor();
-
-            //COPIE E COLE O SEGUINTE MODELO MODIFICANDO O QUE FOR NECESSÁRIO NA PARTE DO DESCRIPTION
-            /*
-            "\n### (NOME JOGO) \n" + rbx.PegarAtivos(STRING Q VC COLOCOU OU O LINK DIRETO) +
-             */
 
             Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("[CONSTRUINDO EMBED]..."); Console.ResetColor();
             var embed = new EmbedBuilder
             {
                 Title = "PLAYERS ATIVOS POR EB", //Título
-                ThumbnailUrl = "https://cdn.discordapp.com/attachments/1003119670435512410/1155981668688072724/Logotipos.png", //Link da imagem
+                ThumbnailUrl = "https://cdn.discordapp.com/attachments/1003119670435512410/1155981668688072724/Logotipos.png",
                 Color = Color.Red,
                 Timestamp = DateTime.Now,
                 ImageUrl = "",
                 Description = links
         };
-            Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine(" OK"); Console.ResetColor();
 
+
+            Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine(" OK"); Console.ResetColor();
 
 
             Console.Write("[- Debug? Y/N] - ");
@@ -70,15 +125,11 @@ class Program
             Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine("[INICIADO!]"); Console.ResetColor();
             for (int i = 1; i > 0; i++)
             {
-                //COPIE E COLE O QUE VOCÊ COLOCOU NO EMBED BUILDER (MENOS A PARTE DO TITLE)
-
                 embed.Description = links;
                 embed.Timestamp = DateTime.Now;
-                embed.ImageUrl = rbx.GifAleatorio();
+                embed.ImageUrl = "";
 
-                //NOS NÚMEROS ABAIXO COLOQUE O ID DE UMA MENSAGEM FEITA PELO WEBHOOK -- AVISO -- SE APAGAR A MSG CAPAZ DE DAR PAU
-
-                await client.ModifyMessageAsync(1200545424277246093, properties =>
+                await client.ModifyMessageAsync(ulong.Parse(idmsg), properties =>
                 {
                     properties.Content = "";
                     properties.Embeds = new[] { embed.Build() }; // Edita o embed da mensagem
