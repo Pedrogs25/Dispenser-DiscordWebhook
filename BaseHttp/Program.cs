@@ -2,6 +2,7 @@
 using Discord.Webhook;
 using BaseHttp.GETPAGINA;
 using Microsoft.VisualBasic;
+using System.Text;
 
 class Program
 {
@@ -25,21 +26,25 @@ class Program
 
             Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("[PEGANDO LINKS]..."); Console.ResetColor();
             //ADICIONE OS JOGOS COM O LINK
-            string Jogo1 = "https://www.roblox.com/games/4874005928/Ex-rcito-Brasileiro-EB#!";
-            string Jogo2 = "https://www.roblox.com/games/13132367906/EB-MAPA-NOVO-Ex-rcito-Brasileiro";
-            string Jogo3 = "https://www.roblox.com/games/2069320852/Ex-rcito-Brasileiro-EB";
-            string Jogo4 = "https://www.roblox.com/games/12512279965/MEGA-UPDATE-EB-Ex-rcito-Brasileiro";
-            string Jogo5 = "https://www.roblox.com/games/6274206008/Ex-rcito-Brasileiro-EB";
-            string Jogo6 = "https://www.roblox.com/games/13282270169/EB-2-Ex-rcito-Brasileiro-2";
-            string Jogo7 = "https://www.roblox.com/games/12556807747/Eb-Ex-rcito-Brasileiro-Mega-Update";
-            string Jogo8 = "https://www.roblox.com/games/12151996711/V2-EB-Ex-rcito-Brasileiro";
-            string Jogo9 = "https://www.roblox.com/games/6735836427/V3-EB-Ex-rcito-Brasileiro";
-            string Jogo10 = "https://www.roblox.com/games/14217740449/V1-EB-Ex-rcito-Brasileiro";
-            string Jogo11 = "https://www.roblox.com/games/12152043299/V1-EB-Ex-rcito-Brasileiro";
-            string Jogo12 = "https://www.roblox.com/games/12902059525/E-B-Ex-rcito-Brasileiro";
-            Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine(" OK"); Console.ResetColor();
 
             Rbx rbx = new Rbx(); //Chama a classe
+
+
+            var lines = File.ReadAllLines("links.txt");
+            string links = "";
+            for (var i = 0; i < lines.Length; i += 1)
+            {
+                var line = lines[i];
+            }
+
+            foreach (var line in lines)
+            {
+                links += rbx.PegarAtivos(line);
+            }
+
+
+
+            Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine(" OK"); Console.ResetColor();
 
             //COPIE E COLE O SEGUINTE MODELO MODIFICANDO O QUE FOR NECESSÁRIO NA PARTE DO DESCRIPTION
             /*
@@ -54,20 +59,8 @@ class Program
                 Color = Color.Red,
                 Timestamp = DateTime.Now,
                 ImageUrl = "",
-                Description =
-                "### • Exército Brasileiro Flithy \n" + rbx.PegarAtivos(Jogo1) +
-                "\n### • Exército Brasileiro Tevez \n" + rbx.PegarAtivos(Jogo2) +
-                "\n### • Exército Brasileiro Apex_Hard \n" + rbx.PegarAtivos(Jogo3) +
-                "\n### • Exército Brasileiro Victoryloop \n" + rbx.PegarAtivos(Jogo4) +
-                "\n### • Exército Brasileiro Vegeta \n" + rbx.PegarAtivos(Jogo5) +
-                "\n### • Exército Brasileiro Erikguest \n" + rbx.PegarAtivos(Jogo6) +
-                "\n### • Exército Brasileiro KauezindoEB \n" + rbx.PegarAtivos(Jogo7) +
-                "\n### • Exército Brasileiro xxGamer \n" + rbx.PegarAtivos(Jogo12) +
-                "\n### • Exército Brasileiro Fonojonzo - V2 \n" + rbx.PegarAtivos(Jogo8) +
-                "\n### • Exército Brasileiro Fonojonzo - V3 \n" + rbx.PegarAtivos(Jogo9) +
-                "\n### • Exército Brasileiro Fonojonzo - V1 \n" + rbx.PegarAtivos(Jogo10) +
-                "\n### • Exército Brasileiro Fonojonzo - V1 segundo \n" + rbx.PegarAtivos(Jogo11)
-            };
+                Description = links
+        };
             Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine(" OK"); Console.ResetColor();
 
 
@@ -79,19 +72,7 @@ class Program
             {
                 //COPIE E COLE O QUE VOCÊ COLOCOU NO EMBED BUILDER (MENOS A PARTE DO TITLE)
 
-                embed.Description =
-                "### • Exército Brasileiro Flithy \n" + rbx.PegarAtivos(Jogo1) +
-                "\n### • Exército Brasileiro Tevez \n" + rbx.PegarAtivos(Jogo2) +
-                "\n### • Exército Brasileiro Apex_Hard \n" + rbx.PegarAtivos(Jogo3) +
-                "\n### • Exército Brasileiro Victoryloop \n" + rbx.PegarAtivos(Jogo4) +
-                "\n### • Exército Brasileiro Vegeta \n" + rbx.PegarAtivos(Jogo5) +
-                "\n### • Exército Brasileiro Erikguest \n" + rbx.PegarAtivos(Jogo6) +
-                "\n### • Exército Brasileiro KauezindoEB \n" + rbx.PegarAtivos(Jogo7) +
-                "\n### • Exército Brasileiro xxGamer \n" + rbx.PegarAtivos(Jogo12) +
-                "\n### • Exército Brasileiro Fonojonzo - V2 \n" + rbx.PegarAtivos(Jogo8) +
-                "\n### • Exército Brasileiro Fonojonzo - V3 \n" + rbx.PegarAtivos(Jogo9) +
-                "\n### • Exército Brasileiro Fonojonzo - V1 \n" + rbx.PegarAtivos(Jogo10) +
-                "\n### • Exército Brasileiro Fonojonzo - V1 segundo \n" + rbx.PegarAtivos(Jogo11);
+                embed.Description = links;
                 embed.Timestamp = DateTime.Now;
                 embed.ImageUrl = rbx.GifAleatorio();
 
