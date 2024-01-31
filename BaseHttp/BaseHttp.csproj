@@ -5,11 +5,20 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <ApplicationIcon>250px-Engiwithdispenser.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="250px-Engiwithdispenser.ico" />
+    <None Remove="Inicializar.txt" />
+    <None Remove="links.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Inicializar.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="links.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

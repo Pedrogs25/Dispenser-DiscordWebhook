@@ -15,6 +15,7 @@ class Program
         int index = random.Next(list.Count);
 
         Console.ForegroundColor = ConsoleColor.DarkBlue; Console.WriteLine("Made by Engineer. " + list[index]); Console.ResetColor();
+        Console.WriteLine("Localização deste executável: " + Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location));
         Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("[INICIANDO]..."); Console.ResetColor();
 
         Rbx rbx = new Rbx(); //Chama a classe
@@ -44,6 +45,8 @@ class Program
         {
             Console.WriteLine();
             Console.WriteLine("ATENÇÃO! HÁ UM ERRO NO ARQUIVO DE INICIALIZAÇÃO // " + ex.Message);
+            Console.ReadKey();
+
             throw;
         }
 
@@ -58,6 +61,8 @@ class Program
         {
             Console.WriteLine();
             Console.WriteLine("ATENÇÃO! HÁ UM ERRO NO WEBHOOK // " + ex.Message);
+            Console.ReadKey();
+
             throw;
         }
 
@@ -76,6 +81,7 @@ class Program
                 await client.SendMessageAsync(".");
                 Console.WriteLine("Pegue o ID da mensagem e coloque no arquivo .txt, o webhook acaba de enviar uma mensagem no canal que ele foi criado. // " + ex.Message);
                 Console.WriteLine();
+                Console.ReadKey();
 
                 throw;
             }
@@ -103,6 +109,9 @@ class Program
             }
             else
             {
+                Console.WriteLine("O arquivo de links não existe, chame o engineer.");
+                Console.WriteLine();
+                Console.ReadKey();
                 throw new Exception("O arquivo de links não existe, chame o engineer.");
             }
 
