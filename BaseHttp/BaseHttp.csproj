@@ -9,11 +9,19 @@
 
   <ItemGroup>
     <None Remove="Inicializar.txt" />
+    <None Remove="InicializarRP.txt" />
     <None Remove="links.txt" />
+    <None Remove="linksRP.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="InicializarRP.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
     <Content Include="Inicializar.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="linksRP.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
     <Content Include="links.txt">

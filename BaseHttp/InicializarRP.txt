@@ -1,0 +1,4 @@
+﻿//Coloque o URL do webhook e o id de alguma mensagem feita por ele. Caso não tenha nenhuma mensagem criada por ele ainda, deixe em branco para que ele crie uma e você consiga pegar o ID dela manualmente e colocar aqui
+
+Webhook=https://discord.com/api/webhooks/1200544873535770744/jhcuR0KABb5HOv7tePPXFCzFEJHubpm4vusJmj5A4psYWcfcyNybYoP-Q0i_hqkkdKXQ
+IDMensagem=1202021935660138597
